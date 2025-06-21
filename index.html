@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Nike South Africa Inspired eCommerce Website - HTML & Tailwind CSS">
+    <title>Nike SA | Just Do It.</title>
+    <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg" type="image/svg+xml">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style type="text/tailwindcss">
+        @layer base {
+            html { scroll-behavior: smooth; }
+            body { 
+                font-family: 'Inter', sans-serif; 
+                @apply bg-white text-black;
+            }
+            h1, h2, h3, h4, h5, h6 { 
+                font-family: 'Montserrat', sans-serif; 
+            }
+            /* Custom utility for Nike Red */
+            .nike-red { @apply bg-red-600; }
+            .text-nike-red { @apply text-red-600; }
+            .border-nike-red { @apply border-red-600; }
+            .hover\:bg-nike-red:hover { background-color: #DC2626; /* red-600 */ }
+            .hover\:text-nike-red:hover { color: #DC2626; /* red-600 */ }
+            .active\:bg-nike-red:active { background-color: #B91C1C; /* red-700 */ }
+            
+            /* Back to top button animations */
+            .back-to-top {
+                @apply fixed bottom-8 right-8 p-3 bg-black text-white rounded-full shadow-lg;
+                @apply transition-all duration-300 ease-in-out transform;
+                @apply hover:bg-red-600 hover:scale-110;
+                @apply opacity-0 translate-y-10;
+                z-index: 40;
+            }
+            .back-to-top.visible {
+                @apply opacity-100 translate-y-0;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+</head>
+<body class="bg-white text-black leading-relaxed">
+
+    <header class="bg-white text-black p-4 shadow-md sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="#homepage" class="flex-shrink-0">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg" alt="Nike Logo" class="h-8 md:h-10">
+            </a>
+
+            <nav class="hidden md:flex space-x-8 lg:space-x-12">
+                <a href="#shoes-section" class="hover:text-red-600 font-semibold transition-colors duration-200 text-lg">Men</a>
+                <a href="#clothing-section" class="hover:text-red-600 font-semibold transition-colors duration-200 text-lg">Women</a>
+                <a href="#accessories-section" class="hover:text-red-600 font-semibold transition-colors duration-200 text-lg">Kids</a>
+                <a href="#" class="hover:text-red-600 font-semibold transition-colors duration-200 text-lg">Sale</a>
+            </nav>
+
+            <div class="flex items-center space-x-4">
+                <button class="p-2 rounded-full hover:bg-gray-100 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-600" aria-label="Search">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                </button>
+                <button class="p-2 rounded-full hover:bg-gray-100 transition-colors duration-200 relative focus:outline-none focus:ring-2 focus:ring-red-600" aria-label="Shopping Cart">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                    <span class="absolute -top-1 -right-1 bg-red-600 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-bold">3</span>
+                </button>
+                <button class="p-2 rounded-full hover:bg-gray-100 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-600" aria-label="User Profile">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                </button>
+
+                <button id="mobile-menu-button" class="md:hidden p-2 rounded-full hover:bg-gray-100 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-600" aria-label="Open menu">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </div>
+
+        <div id="mobile-menu-overlay" class="hidden md:hidden fixed inset-0 bg-white bg-opacity-95 z-40 p-4 transform translate-x-full transition-transform duration-300 ease-in-out">
+            <div class="flex justify-end mb-8">
+                <button id="close-menu-button" class="p-2 rounded-full hover:bg-gray-100 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-600" aria-label="Close menu">
+                    <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <nav class="flex flex-col space-y-6 text-center text-2xl font-bold">
+                <a href="#shoes-section" class="block hover:text-red-600 transition-colors duration-200 mobile-menu-link">Men</a>
+                <a href="#clothing-section" class="block hover:text-red-600 transition-colors duration-200 mobile-menu-link">Women</a>
+                <a href="#accessories-section" class="block hover:text-red-600 transition-colors duration-200 mobile-menu-link">Kids</a>
+                <a href="#" class="block hover:text-red-600 transition-colors duration-200 mobile-menu-link">Sale</a>
+                <a href="#" class="block text-lg font-normal text-gray-700 mt-8 mobile-menu-link">My Account</a>
+                <a href="#" class="block text-lg font-normal text-gray-700 mobile-menu-link">Search</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="homepage" class="flex-grow">
+
+        <section class="relative w-full overflow-hidden h-[50vh] md:h-[70vh] lg:h-[80vh] flex items-center justify-center">
+            <div id="hero-slider" class="absolute inset-0 flex transition-transform duration-1000 ease-in-out">
+                <!-- Hero Slide 1 - Men's Shoes (Photo by Alexander Rotker on Unsplash) -->
+                <div class="flex-shrink-0 w-full h-full bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');">
+                    <div class="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-center items-center text-center p-4">
+                        <h1 class="text-3xl md:text-5xl lg:text-6xl font-black text-white mb-4 animate-fade-in-up transition-opacity duration-700 opacity-0">
+                            Unleash Your Potential
+                        </h1>
+                        <a href="#shoes-section" class="px-6 py-3 md:px-8 md:py-4 bg-black text-white text-lg md:text-xl font-semibold rounded-full hover:bg-red-600 transition-all duration-300 transform translate-y-4 opacity-0 animate-fade-in-up animate-delay-200">
+                            Shop Men's
+                        </a>
+                    </div>
+                </div>
+                <!-- Hero Slide 2 - Women's Clothing (Photo by Dom Hill on Unsplash) -->
+                <div class="flex-shrink-0 w-full h-full bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1542272604-787c3835535d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1026&q=80');">
+                    <div class="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-center items-center text-center p-4">
+                        <h1 class="text-3xl md:text-5xl lg:text-6xl font-black text-white mb-4 animate-fade-in-up transition-opacity duration-700 opacity-0">
+                            Style Meets Performance
+                        </h1>
+                        <a href="#clothing-section" class="px-6 py-3 md:px-8 md:py-4 bg-red-600 text-white text-lg md:text-xl font-semibold rounded-full hover:bg-black transition-all duration-300 transform translate-y-4 opacity-0 animate-fade-in-up animate-delay-200">
+                            Shop Women's
+                        </a>
+                    </div>
+                </div>
+                <!-- Hero Slide 3 - Kids (Photo by Alexander Rotker on Unsplash) -->
+                <div class="flex-shrink-0 w-full h-full bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1887&q=80');">
+                    <div class="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-center items-center text-center p-4">
+                        <h1 class="text-3xl md:text-5xl lg:text-6xl font-black text-white mb-4 animate-fade-in-up transition-opacity duration-700 opacity-0">
+                            Gear Up for Play
+                        </h1>
+                        <a href="#accessories-section" class="px-6 py-3 md:px-8 md:py-4 bg-black text-white text-lg md:text-xl font-semibold rounded-full hover:bg-red-600 transition-all duration-300 transform translate-y-4 opacity-0 animate-fade-in-up animate-delay-200">
+                            Shop Kids
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <button id="slider-prev" class="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-black bg-opacity-50 text-white rounded-full hover:bg-opacity-75 transition-opacity duration-200 z-10 focus:outline-none focus:ring-2 focus:ring-red-600" aria-label="Previous slide">
+                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+            </button>
+            <button id="slider-next" class="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-black bg-opacity-50 text-white rounded-full hover:bg-opacity-75 transition-opacity duration-200 z-10 focus:outline-none focus:ring-2 focus:ring-red-600" aria-label="Next slide">
+                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            </button>
+
+            <div id="slider-dots" class="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2 z-10">
+                <button class="h-3 w-3 rounded-full bg-white transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-red-600" aria-label="Go to slide 1"></button>
+                <button class="h-3 w-3 rounded-full bg-gray-400 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-red-600" aria-label="Go to slide 2"></button>
+                <button class="h-3 w-3 rounded-full bg-gray-400 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-red-600" aria-label="Go to slide 3"></button>
+            </div>
+        </section>
+
+        <section id="shoes-section" class="container mx-auto px-4 py-12 md:py-16">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-3xl md:text-4xl font-extrabold text-black">Popular Shoes</h2>
+                <a href="#" class="text-red-600 hover:underline font-semibold text-lg transition-colors duration-200">
+                    Shop All Shoes &rarr;
+                </a>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
+                <!-- Shoe 1 - Photo by Firmbee.com on Unsplash -->
+                <a href="#product-detail-page" class="block group bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300 transform hover:-translate-y-1">
+                    <div class="relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1600269452121-4f2416e55c28?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1065&q=80" alt="White Sneakers" class="w-full h-64 object-cover object-center transition-transform duration-300 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <button class="bg-black text-white px-5 py-2 rounded-full font-semibold opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 hover:bg-red-600">
+                                Quick View
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold text-black mb-1">Classic White Sneakers</h3>
+                        <p class="text-xl font-bold text-red-600">R 1,899.99</p>
+                    </div>
+                </a>
+                <!-- Shoe 2 - Photo by Raul Angel on Unsplash -->
+                <a href="#product-detail-page" class="block group bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300 transform hover:-translate-y-1">
+                    <div class="relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1025&q=80" alt="Running Shoes" class="w-full h-64 object-cover object-center transition-transform duration-300 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <button class="bg-black text-white px-5 py-2 rounded-full font-semibold opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 hover:bg-red-600">
+                                Quick View
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold text-black mb-1">Performance Running</h3>
+                        <p class="text-xl font-bold text-red-600">R 1,999.99</p>
+                    </div>
+                </a>
+                <!-- Shoe 3 - Photo by Daniel Storek on Unsplash -->
+                <a href="#product-detail-page" class="block group bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300 transform hover:-translate-y-1">
+                    <div class="relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1543508282-6319a3e2621f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1015&q=80" alt="Basketball Shoes" class="w-full h-64 object-cover object-center transition-transform duration-300 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <button class="bg-black text-white px-5 py-2 rounded-full font-semibold opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 hover:bg-red-600">
+                                Quick View
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold text-black mb-1">Pro Basketball</h3>
+                        <p class="text-xl font-bold text-red-600">R 2,899.99</p>
+                    </div>
+                </a>
+                <!-- Shoe 4 - Photo by Lukas on Pexels -->
+                <a href="#product-detail-page" class="block group bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300 transform hover:-translate-y-1">
+                    <div class="relative overflow-hidden">
+                        <img src="https://images.pexels.com/photos/19090/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Trail Running Shoes" class="w-full h-64 object-cover object-center transition-transform duration-300 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <button class="bg-black text-white px-5 py-2 rounded-full font-semibold opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 hover:bg-red-600">
+                                Quick View
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold text-black mb-1">Trail Runner</h3>
+                        <p class="text-xl font-bold text-red-600">R 2,199.99</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <section id="clothing-section" class="container mx-auto px-4 py-12 md:py-16">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-3xl md:text-4xl font-extrabold text-black">Latest Clothing</h2>
+                <a href="#" class="text-red-600 hover:underline font-semibold text-lg transition-colors duration-200">
+                    Shop All Clothing &rarr;
+                </a>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
+                <!-- Clothing 1 - Photo by Marcus Aurelius on Pexels -->
+                <a href="#product-detail-page" class="block group bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300 transform hover:-translate-y-1">
+                    <div class="relative overflow-hidden">
+                        <img src="https://images.pexels.com/photos/9558699/pexels-photo-9558699.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Tech Fleece Hoodie" class="w-full h-64 object-cover object-center transition-transform duration-300 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <button class="bg-black text-white px-5 py-2 rounded-full font-semibold opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 hover:bg-red-600">
+                                Quick View
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold text-black mb-1">Tech Fleece Hoodie</h3>
+                        <p class="text-xl font-bold text-red-600">R 1,699.99</p>
+                    </div>
+                </a>
+                <!-- Clothing 2 - Photo by Marcus Aurelius on Pexels -->
+                <a href="#product-detail-page" class="block group bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300 transform hover:-translate-y-1">
+                    <div class="relative overflow-hidden">
+                        <img src="https://images.pexels.com/photos/9558603/pexels-photo-9558603.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Training T-Shirt" class="w-full h-64 object-cover object-center transition-transform duration-300 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <button class="bg-black text-white px-5 py-2 rounded-full font-semibold opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 hover:bg-red-600">
+                                Quick View
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold text-black mb-1">Dri-FIT Training T-Shirt</h3>
+                        <p class="text-xl font-bold text-red-600">R 499.99</p>
+                    </div>
+                </a>
+                <!-- Clothing 3 - Photo by Marcus Aurelius on Pexels -->
+                <a href="#product-detail-page" class="block group bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300 transform hover:-translate-y-1">
+                    <div class="relative overflow-hidden">
+                        <img src="https://images.pexels.com/photos/9558605/pexels-photo-9558605.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Joggers" class="w-full h-64 object-cover object-center transition-transform duration-300 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <button class="bg-black text-white px-5 py-2 rounded-full font-semibold opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 hover:bg-red-600">
+                                Quick View
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold text-black mb-1">Club Fleece Joggers</h3>
+                        <p class="text-xl font-bold text-red-600">R 999.99</p>
+                    </div>
+                </a>
+                <!-- Clothing 4 - Photo by Marcus Aurelius on Pexels -->
+                <a href="#product-detail-page" class="block group bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300 transform hover:-translate-y-1">
+                    <div class="relative overflow-hidden">
+                        <img src="https://images.pexels.com/photos/9558604/pexels-photo-9558604.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Training Shorts" class="w-full h-64 object-cover object-center transition-transform duration-300 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <button class="bg-black text-white px-5 py-2 rounded-full font-semibold opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 hover:bg-red-600">
+                                Quick View
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold text-black mb-1">Pro Dri-FIT Shorts</h3>
+                        <p class="text-xl font-bold text-red-600">R 749.99</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <section id="accessories-section" class="container mx-auto px-4 py-12 md:py-16">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-3xl md:text-4xl font-extrabold text-black">Essential Accessories</h2>
+                <a href="#" class="text-red-600 hover:underline font-semibold text-lg transition-colors duration-200">
+                    Shop All Accessories &rarr;
+                </a>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
+                <!-- Accessory 1 - Photo by Marcus Aurelius on Pexels -->
+                <a href="#product-detail-page" class="block group bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300 transform hover:-translate-y-1">
+                    <div class="relative overflow-hidden">
+                        <img src="https://images.pexels.com/photos/298863/pexels-photo-298863.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Backpack" class="w-full h-64 object-cover object-center transition-transform duration-300 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <button class="bg-black text-white px-5 py-2 rounded-full font-semibold opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 hover:bg-red-600">
+                                Quick View
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold text-black mb-1">Elemental Backpack</h3>
+                        <p class="text-xl font-bold text-red-600">R 899.99</p>
+                    </div>
+                </a>
+                <!-- Accessory 2 - Photo by Karolina Grabowska on Pexels -->
+                <a href="#product-detail-page" class="block group bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300 transform hover:-translate-y-1">
+                    <div class="relative overflow-hidden">
+                        <img src="https://images.pexels.com/photos/6347888/pexels-photo-6347888.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Socks" class="w-full h-64 object-cover object-center transition-transform duration-300 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <button class="bg-black text-white px-5 py-2 rounded-full font-semibold opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 hover:bg-red-600">
+                                Quick View
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold text-black mb-1">Elite Basketball Socks</h3>
+                        <p class="text-xl font-bold text-red-600">R 199.99</p>
+                    </div>
+                </a>
+                <!-- Accessory 3 - Photo by Karolina Grabowska on Pexels -->
+                <a href="#product-detail-page" class="block group bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300 transform hover:-translate-y-1">
+                    <div class="relative overflow-hidden">
+                        <img src="https://images.pexels.com/photos/6347887/pexels-photo-6347887.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Hip Pack" class="w-full h-64 object-cover object-center transition-transform duration-300 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <button class="bg-black text-white px-5 py-2 rounded-full font-semibold opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 hover:bg-red-600">
+                                Quick View
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold text-black mb-1">Heritage Hip Pack</h3>
+                        <p class="text-xl font-bold text-red-600">R 399.99</p>
+                    </div>
+                </a>
+                <!-- Accessory 4 - Photo by Karolina Grabowska on Pexels -->
+                <a href="#product-detail-page" class="block group bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300 transform hover:-translate-y-1">
+                    <div class="relative overflow-hidden">
+                        <img src="https://images.pexels.com/photos/6347886/pexels-photo-6347886.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Cap" class="w-full h-64 object-cover object-center transition-transform duration-300 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <button class="bg-black text-white px-5 py-2 rounded-full font-semibold opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 hover:bg-red-600">
+                                Quick View
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold text-black mb-1">Metal Swoosh H86 Cap</h3>
+                        <p class="text-xl font-bold text-red-600">R 349.99</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <section id="product-detail-page" class="hidden fixed inset-0 bg-white z-[60] overflow-y-auto p-4 md:p-8">
+            <div class="container mx-auto">
+                <button id="close-pdp-button" class="absolute top-4 right-4 md:top-8 md:right-8 p-3 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-600 z-50" aria-label="Close product details">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 mt-12 lg:mt-0">
+                    <div class="lg:sticky lg:top-24 self-start">
+                        <!-- Main product image (Photo by Firmbee.com on Unsplash) -->
+                        <img id="main-product-image" src="https://images.unsplash.com/photo-1600269452121-4f2416e55c28?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1065&q=80" alt="White Sneakers - Main View" class="w-full h-auto object-cover rounded-lg shadow-md mb-4 max-h-[60vh] lg:max-h-none">
+                        <div class="flex space-x-2 overflow-x-auto justify-center">
+                            <!-- Thumbnail 1 -->
+                            <img src="https://images.unsplash.com/photo-1600269452121-4f2416e55c28?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1065&q=80" alt="Thumb 1" class="w-20 h-20 object-cover cursor-pointer rounded-md border-2 border-red-600 hover:border-black transition-colors duration-200 product-thumbnail">
+                            <!-- Thumbnail 2 (Photo by Raul Angel on Unsplash) -->
+                            <img src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1025&q=80" alt="Thumb 2" class="w-20 h-20 object-cover cursor-pointer rounded-md border-2 border-transparent hover:border-red-600 transition-colors duration-200 product-thumbnail">
+                            <!-- Thumbnail 3 (Photo by Daniel Storek on Unsplash) -->
+                            <img src="https://images.unsplash.com/photo-1543508282-6319a3e2621f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1015&q=80" alt="Thumb 3" class="w-20 h-20 object-cover cursor-pointer rounded-md border-2 border-transparent hover:border-red-600 transition-colors duration-200 product-thumbnail">
+                            <!-- Thumbnail 4 (Photo by Lukas on Pexels) -->
+                            <img src="https://images.pexels.com/photos/19090/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Thumb 4" class="w-20 h-20 object-cover cursor-pointer rounded-md border-2 border-transparent hover:border-red-600 transition-colors duration-200 product-thumbnail">
+                        </div>
+                    </div>
+
+                    <div>
+                        <h1 class="text-3xl md:text-4xl font-extrabold text-black mb-2">Classic White Sneakers</h1>
+                        <p class="text-xl md:text-2xl font-bold text-red-600 mb-4">R 1,899.99</p>
+
+                        <div class="mb-4">
+                            <h3 class="text-lg font-semibold mb-2">Color: White / Black</h3>
+                            <div class="flex space-x-2">
+                                <button class="w-8 h-8 rounded-full border-2 border-red-600 transition-colors duration-200" style="background-color: #FFFFFF;" aria-label="Select white color"></button>
+                                <button class="w-8 h-8 rounded-full border-2 border-gray-300 hover:border-black transition-colors duration-200" style="background-color: #000000;" aria-label="Select black color"></button>
+                                <button class="w-8 h-8 rounded-full border-2 border-gray-300 hover:border-black transition-colors duration-200" style="background-color: #DC2626;" aria-label="Select red color"></button>
+                            </div>
+                        </div>
+
+                        <div class="mb-6">
+                            <div class="flex justify-between items-center mb-2">
+                                <h3 class="text-lg font-semibold">Select Size (US Men's)</h3>
+                                <a href="#" class="text-red-600 text-sm hover:underline">Size Guide</a>
+                            </div>
+                            <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2">
+                                <button class="px-4 py-2 border rounded-md text-sm font-medium transition-all duration-200 bg-black text-white border-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-red-600">US 7</button>
+                                <button class="px-4 py-2 border rounded-md text-sm font-medium transition-all duration-200 bg-white text-black border-gray-300 hover:border-black focus:outline-none focus:ring-2 focus:ring-red-600">US 8</button>
+                                <button class="px-4 py-2 border rounded-md text-sm font-medium transition-all duration-200 bg-white text-black border-gray-300 hover:border-black focus:outline-none focus:ring-2 focus:ring-red-600">US 9</button>
+                                <button class="px-4 py-2 border rounded-md text-sm font-medium transition-all duration-200 bg-white text-black border-gray-300 hover:border-black focus:outline-none focus:ring-2 focus:ring-red-600">US 10</button>
+                                <button class="px-4 py-2 border rounded-md text-sm font-medium transition-all duration-200 bg-white text-black border-gray-300 hover:border-black focus:outline-none focus:ring-2 focus:ring-red-600">US 11</button>
+                                <button class="px-4 py-2 border rounded-md text-sm font-medium transition-all duration-200 bg-white text-black border-gray-300 hover:border-black focus:outline-none focus:ring-2 focus:ring-red-600">US 12</button>
+                                <button class="px-4 py-2 border rounded-md text-sm font-medium transition-all duration-200 bg-gray-100 text-gray-500 border-gray-200 cursor-not-allowed">US 13</button>
+                            </div>
+                        </div>
+
+                        <button class="w-full py-3 bg-black text-white text-lg font-bold rounded-full hover:bg-red-600 transition-colors duration-300 active:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-600">
+                            Add to Cart
+                        </button>
+
+                        <div class="mt-8">
+                            <h3 class="text-xl font-bold mb-3">Product Details</h3>
+                            <p class="text-gray-700 leading-relaxed">The Classic White Sneakers are the original basketball icon that puts a fresh spin on what you know best: crisp overlays, bold accents and the perfect amount of flash to make you shine. Soft, springy cushioning and a low-cut collar provide a comfortable fit for all-day wear. The durable foam midsole and Air cushioning give you a comfortable ride.</p>
+                        </div>
+
+                        <div class="mt-6 border-t pt-6">
+                            <details class="cursor-pointer">
+                                <summary class="text-lg font-semibold flex justify-between items-center hover:text-red-600 transition-colors duration-200">
+                                    Shipping & Returns
+                                    <svg class="w-4 h-4 transform transition-transform duration-200 rotate-0 open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </summary>
+                                <div class="mt-2 text-gray-700 text-sm pl-4">
+                                    <p>Enjoy free standard shipping on all orders over R1000.</p>
+                                    <p>Estimated delivery: 3-5 business days.</p>
+                                    <p>Returns are accepted within 30 days of purchase for a full refund. Items must be in original condition.</p>
+                                </div>
+                            </details>
+                        </div>
+                    </div>
+                </div>
+
+                <section class="mt-12 md:mt-16">
+                    <h2 class="text-3xl font-extrabold text-black mb-6">You Might Also Like</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
+                        <!-- Related Product 1 (Photo by Marcus Aurelius on Pexels) -->
+                        <a href="#" class="block group bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300 transform hover:-translate-y-1">
+                            <div class="relative overflow-hidden">
+                                <img src="https://images.pexels.com/photos/9558699/pexels-photo-9558699.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Tech Fleece Hoodie" class="w-full h-64 object-cover object-center transition-transform duration-300 group-hover:scale-110">
+                                <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    <button class="bg-black text-white px-5 py-2 rounded-full font-semibold opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 hover:bg-red-600">
+                                        Quick View
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="p-4">
+                                <h3 class="text-lg font-semibold text-black mb-1">Tech Fleece Hoodie</h3>
+                                <p class="text-xl font-bold text-red-600">R 1,699.99</p>
+                            </div>
+                        </a>
+                        <!-- Related Product 2 (Photo by Karolina Grabowska on Pexels) -->
+                        <a href="#" class="block group bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300 transform hover:-translate-y-1">
+                            <div class="relative overflow-hidden">
+                                <img src="https://images.pexels.com/photos/6347888/pexels-photo-6347888.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Elite Basketball Socks" class="w-full h-64 object-cover object-center transition-transform duration-300 group-hover:scale-110">
+                                <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    <button class="bg-black text-white px-5 py-2 rounded-full font-semibold opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 hover:bg-red-600">
+                                        Quick View
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="p-4">
+                                <h3 class="text-lg font-semibold text-black mb-1">Elite Basketball Socks</h3>
+                                <p class="text-xl font-bold text-red-600">R 199.99</p>
+                            </div>
+                        </a>
+                        <!-- Related Product 3 (Photo by Marcus Aurelius on Pexels) -->
+                        <a href="#" class="block group bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300 transform hover:-translate-y-1">
+                            <div class="relative overflow-hidden">
+                                <img src="https://images.pexels.com/photos/298863/pexels-photo-298863.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Elemental Backpack" class="w-full h-64 object-cover object-center transition-transform duration-300 group-hover:scale-110">
+                                <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    <button class="bg-black text-white px-5 py-2 rounded-full font-semibold opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 hover:bg-red-600">
+                                        Quick View
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="p-4">
+                                <h3 class="text-lg font-semibold text-black mb-1">Elemental Backpack</h3>
+                                <p class="text-xl font-bold text-red-600">R 899.99</p>
+                            </div>
+                        </a>
+                    </div>
+                </section>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-black text-white py-12 px-4">
+        <div class="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+                <h3 class="text-lg font-bold mb-4">Get Help</h3>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#" class="hover:text-red-600 transition-colors duration-200">Help Center</a></li>
+                    <li><a href="#" class="hover:text-red-600 transition-colors duration-200">Contact Us</a></li>
+                    <li><a href="#" class="hover:text-red-600 transition-colors duration-200">Returns & Exchanges</a></li>
+                    <li><a href="#" class="hover:text-red-600 transition-colors duration-200">Order Status</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h3 class="text-lg font-bold mb-4">About Nike</h3>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#" class="hover:text-red-600 transition-colors duration-200">About Us</a></li>
+                    <li><a href="#" class="hover:text-red-600 transition-colors duration-200">Careers</a></li>
+                    <li><a href="#" class="hover:text-red-600 transition-colors duration-200">Sustainability</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h3 class="text-lg font-bold mb-4">Legal</h3>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#" class="hover:text-red-600 transition-colors duration-200">Privacy Policy</a></li>
+                    <li><a href="#" class="hover:text-red-600 transition-colors duration-200">Terms & Conditions</a></li>
+                    <li><a href="#" class="hover:text-red-600 transition-colors duration-200">Cookie Settings</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h3 class="text-lg font-bold mb-4">Stay Connected</h3>
+                <p class="text-sm mb-4">Sign up for exclusive offers and updates.</p>
+                <div class="flex mb-6">
+                    <input
+                        type="email"
+                        placeholder="Your email address"
+                        class="px-4 py-2 w-full rounded-l-md bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-600"
+                    />
+                    <button class="bg-red-600 text-white px-4 py-2 rounded-r-md hover:bg-red-700 transition-colors duration-200 active:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-600">
+                        Subscribe
+                    </button>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="https://facebook.com/nike" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="text-white hover:text-red-600 transition-colors duration-200">
+                        <svg class="h-7 w-7" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.873V14.89h-2.54V12h2.54V9.748c0-2.502 1.493-3.891 3.775-3.891 1.094 0 2.238.195 2.238.195v2.46h-1.262c-1.247 0-1.637.772-1.637 1.562V12h2.773l-.443 2.89h-2.33V22h4.516c4.991-.745 8.657-4.882 8.657-9.873C22 6.477 17.523 2 12 2z"></path></svg>
+                    </a>
+                    <a href="https://instagram.com/nike" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="text-white hover:text-red-600 transition-colors duration-200">
+                        <svg class="h-7 w-7" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.071 3.544.174 4.544 1.408 4.795 4.908.257 3.465.347 4.557.347 4.557s-.09 1.092-.347 4.557c-.251 3.5-.544 4.734-4.795 4.908-1.266.06-1.646.071-4.85.071s-3.584-.012-4.85-.071c-3.5-.174-4.508-1.408-4.757-4.908-.258-3.465-.347-4.557-.347-4.557s.089-1.092.347-4.557c.25-3.5 1.258-4.734 4.757-4.908 1.266-.06 1.646-.071 4.85-.071zm0 2.163c-3.264 0-3.663.013-4.95.071-3.053.15-3.764 1.164-3.954 4.103-.189 2.946-.242 3.842-.242 3.842s.053.896.242 3.842c.19 2.939.901 3.953 3.954 4.103 1.287.058 1.686.071 4.95.071s3.663-.013 4.95-.071c3.053-.15 3.764-1.164 3.954-4.103.189-2.946.242-3.842.242-3.842s-.053-.896-.242-3.842c-.19-2.939-.901-3.953-3.954-4.103-1.287-.058-1.686-.071-4.95-.071zm0 2.827c-2.321 0-4.207 1.886-4.207 4.207s1.886 4.207 4.207 4.207 4.207-1.886 4.207-4.207-1.886-4.207-4.207-4.207zm0 2.163c1.077 0 1.954.877 1.954 1.954s-.877 1.954-1.954 1.954-1.954-.877-1.954-1.954.877-1.954 1.954-1.954zm6.495-.91c0 .59-.485 1.075-1.075 1.075s-1.075-.485-1.075-1.075.485-1.075 1.075-1.075 1.075.485 1.075 1.075z"></path></svg>
+                    </a>
+                    <a href="https://twitter.com/nike" target="_blank" rel="noopener noreferrer" aria-label="Twitter" class="text-white hover:text-red-600 transition-colors duration-200">
+                        <svg class="h-7 w-7" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M22.46 6c-.843.376-1.75.632-2.697.747 1.017-.609 1.799-1.574 2.166-2.721-.95.567-2.004.978-3.12 1.198C18.312 3.992 16.924 3 15.358 3c-3.106 0-5.62 2.514-5.62 5.62 0 .44.05.86.142 1.265C6.46 9.07 3.488 7.35 1.488 4.706c-.464.795-.73 1.72-.73 2.71 0 1.948.995 3.66 2.507 4.676-.92-.027-1.78-.28-2.544-.7c0 .023 0 .046 0 .07 0 2.724 1.938 4.996 4.512 5.525-.47.127-.965.195-1.47.195-.36 0-.71-.035-1.05-.1 1.98 2.006 4.636 3.462 7.773 3.5C14.07 20.313 17.5 21 19.345 21c2.193 0 4.05-1.066 4.05-1.066s-.622-.977-1.22-.924c-1.39.06-2.617-.43-3.66-1.127.375.05.75.074 1.13.074.805 0 1.583-.175 2.296-.484z"></path></svg>
+                    </a>
+                    <a href="https://www.youtube.com/user/nike" target="_blank" rel="noopener noreferrer" aria-label="YouTube" class="text-white hover:text-red-600 transition-colors duration-200">
+                        <svg class="h-7 w-7" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.707 9.293L10 15.006V9.006L16.707 9.293z"></path></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-400">
+            <p>&copy; 2025 Nike, Inc. All Rights Reserved. Product images from Unsplash and Pexels.</p>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
+        </svg>
+    </button>
+
+    <script>
+        // Mobile Menu Toggles
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const closeMenuButton = document.getElementById('close-menu-button');
+        const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+        const mobileMenuLinks = document.querySelectorAll('.mobile-menu-link');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenuOverlay.classList.remove('hidden');
+            setTimeout(() => {
+                mobileMenuOverlay.classList.remove('translate-x-full');
+            }, 10); // Small delay for transition to apply
+            document.body.style.overflow = 'hidden'; // Prevent scrolling body when menu is open
+        });
+
+        const closeMobileMenu = () => {
+            mobileMenuOverlay.classList.add('translate-x-full');
+            setTimeout(() => {
+                mobileMenuOverlay.classList.add('hidden');
+            }, 300); // Wait for transition to complete
+            document.body.style.overflow = ''; // Restore body scrolling
+        };
+        closeMenuButton.addEventListener('click', closeMobileMenu);
+        mobileMenuLinks.forEach(link => {
+            link.addEventListener('click', closeMobileMenu);
+        });
+
+
+        // Hero Slider Functionality
+        const slider = document.getElementById('hero-slider');
+        const slides = slider.children;
+        const totalSlides = slides.length;
+        let currentSlide = 0;
+        let autoSlideInterval;
+
+        const sliderPrevBtn = document.getElementById('slider-prev');
+        const sliderNextBtn = document.getElementById('slider-next');
+        const sliderDotsContainer = document.getElementById('slider-dots');
+        const sliderDots = sliderDotsContainer.children;
+
+        const updateSlider = () => {
+            slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+            // Update dots
+            Array.from(sliderDots).forEach((dot, index) => {
+                if (index === currentSlide) {
+                    dot.classList.add('bg-white');
+                    dot.classList.remove('bg-gray-400');
+                } else {
+                    dot.classList.add('bg-gray-400');
+                    dot.classList.remove('bg-white');
+                }
+            });
+
+            // Trigger animations on visible slide
+            Array.from(slides).forEach((slide, index) => {
+                const headline = slide.querySelector('h1');
+                const ctaButton = slide.querySelector('a');
+                if (index === currentSlide) {
+                    headline.classList.remove('opacity-0', 'translate-y-4');
+                    headline.classList.add('opacity-100', 'animate-fade-in-up');
+                    ctaButton.classList.remove('opacity-0', 'translate-y-4');
+                    ctaButton.classList.add('opacity-100', 'animate-fade-in-up', 'animate-delay-200');
+                } else {
+                    // Reset animations for hidden slides
+                    headline.classList.remove('opacity-100', 'animate-fade-in-up');
+                    headline.classList.add('opacity-0', 'translate-y-4');
+                    ctaButton.classList.remove('opacity-100', 'animate-fade-in-up', 'animate-delay-200');
+                    ctaButton.classList.add('opacity-0', 'translate-y-4');
+                }
+            });
+        };
+
+        const goToSlide = (index) => {
+            currentSlide = index;
+            updateSlider();
+            resetAutoSlide();
+        };
+
+        const nextSlide = () => {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateSlider();
+        };
+
+        const prevSlide = () => {
+            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+            updateSlider();
+        };
+
+        const startAutoSlide = () => {
+            autoSlideInterval = setInterval(nextSlide, 5000); // Change slide every 5 seconds
+        };
+
+        const resetAutoSlide = () => {
+            clearInterval(autoSlideInterval);
+            startAutoSlide();
+        };
+
+        sliderNextBtn.addEventListener('click', nextSlide);
+        sliderPrevBtn.addEventListener('click', prevSlide);
+
+        Array.from(sliderDots).forEach((dot, index) => {
+            dot.addEventListener('click', () => goToSlide(index));
+        });
+
+        // Initialize slider
+        updateSlider();
+        startAutoSlide();
+
+        // Product Detail Page (PDP) Toggle
+        const pdpLinks = document.querySelectorAll('a[href="#product-detail-page"]');
+        const pdpPage = document.getElementById('product-detail-page');
+        const closePdpButton = document.getElementById('close-pdp-button');
+        const mainProductImage = document.getElementById('main-product-image');
+        const productThumbnails = document.querySelectorAll('.product-thumbnail');
+
+        pdpLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                pdpPage.classList.remove('hidden');
+                document.body.style.overflow = 'hidden'; // Prevent body scrolling
+                pdpPage.scrollTop = 0; // Scroll to top of PDP
+
+                // Set initial main image for PDP when opened
+                const productCardImage = link.querySelector('img');
+                if (productCardImage) {
+                    mainProductImage.src = productCardImage.src;
+                    // Reset active thumbnail state
+                    productThumbnails.forEach(thumb => {
+                        thumb.classList.remove('border-red-600');
+                        thumb.classList.add('border-transparent');
+                    });
+                    // Set the clicked product's image as active thumbnail
+                    const activeThumb = Array.from(productThumbnails).find(thumb => thumb.src === productCardImage.src);
+                    if (activeThumb) {
+                        activeThumb.classList.remove('border-transparent');
+                        activeThumb.classList.add('border-red-600');
+                    } else {
+                        // Fallback if main image from card isn't directly a thumbnail
+                        productThumbnails[0].classList.remove('border-transparent');
+                        productThumbnails[0].classList.add('border-red-600');
+                        mainProductImage.src = productThumbnails[0].src;
+                    }
+                }
+            });
+        });
+
+        closePdpButton.addEventListener('click', () => {
+            pdpPage.classList.add('hidden');
+            document.body.style.overflow = ''; // Restore body scrolling
+        });
+
+        // PDP thumbnail functionality
+        productThumbnails.forEach(thumb => {
+            thumb.addEventListener('click', () => {
+                mainProductImage.src = thumb.src;
+                productThumbnails.forEach(t => {
+                    t.classList.remove('border-red-600');
+                    t.classList.add('border-transparent');
+                });
+                thumb.classList.remove('border-transparent');
+                thumb.classList.add('border-red-600');
+            });
+        });
+
+        // Back to Top Functionality
+        const backToTopButton = document.getElementById('back-to-top');
+        
+        // Show/hide button based on scroll position
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add('visible');
+            } else {
+                backToTopButton.classList.remove('visible');
+            }
+        });
+        
+        // Scroll to top with smooth behavior
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Hide button when product detail page is open
+        closePdpButton.addEventListener('click', () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add('visible');
+            }
+        });
+        
+        // Also hide when opening mobile menu
+        mobileMenuButton.addEventListener('click', () => {
+            backToTopButton.classList.remove('visible');
+        });
+        
+        // Re-show after closing mobile menu if needed
+        closeMenuButton.addEventListener('click', () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add('visible');
+            }
+        });
+
+    </script>
+</body>
+</html>
